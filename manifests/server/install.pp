@@ -3,7 +3,7 @@
 # Install Impala Server.
 #
 class impala::server::install {
-  contain ::impala::common::postinstall
+  contain impala::common::postinstall
 
   package { $::impala::packages['server']:
     ensure => present,

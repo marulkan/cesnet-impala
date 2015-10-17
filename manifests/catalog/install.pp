@@ -3,7 +3,7 @@
 # Install Impala Catalog.
 #
 class impala::catalog::install {
-  contain ::impala::common::postinstall
+  contain impala::common::postinstall
 
   package { $::impala::packages['catalog']:
     ensure => present,

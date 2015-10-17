@@ -3,7 +3,7 @@
 # Install Impala Statestore.
 #
 class impala::statestore::install {
-  contain ::impala::common::postinstall
+  contain impala::common::postinstall
 
   package { $::impala::packages['statestore']:
     ensure => present,
