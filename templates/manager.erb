@@ -20,7 +20,7 @@ while [ -n "$1" ]; do
 
   case "$1" in
   clean)
-    rm -rfv /var/log/impala/* 2&gt;/dev/null || :
+    rm -rfv /var/log/impala/* 2>/dev/null || :
     ;;
   start|restart|*)
 <%if scope.lookupvar('impala::catalog_hostname') == @fqdn -%>    echo "<%= catalog -%> $1"; service <%= catalog -%> $1

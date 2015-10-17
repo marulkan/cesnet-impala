@@ -6,9 +6,11 @@
 class impala::params {
   $packages = {
     catalog    => 'impala-catalog',
+    debug      => 'impala-dbg',
     frontend   => 'impala-shell',
     server     => 'impala-server',
     statestore => 'impala-state-store',
+    udf        => 'impala-udf-dev',
   }
   $daemons = {
     catalog    => 'impala-catalog',
@@ -21,7 +23,7 @@ class impala::params {
   $hadoop_confdir = '/etc/hadoop/conf'
   $hbase_confdir = '/etc/hbase/conf'
   $hive_confdir = '/etc/hive/conf'
-  $impala_homedir = '/var/lib/impala'
+  $homedir = '/var/lib/impala'
 
   $descriptions = {}
 }

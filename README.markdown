@@ -6,6 +6,7 @@
     * [Setup requirements](#requirements)
 3. [Usage - Configuration options and additional functionality](#usage)
 4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
+    * [Module Parameters (impala class)](#class-impala)
 5. [Limitations - OS compatibility, etc.](#limitations)
 6. [Development - Guide for contributing to the module](#development)
 
@@ -109,6 +110,10 @@ Example when using 'users' group:
 * `impala::catalog::config`
 * `impala::catalog::install`
 * `impala::catalog::service`
+* `impala::common::config`
+* `impala::common::daemon`
+* `impala::common::install`
+* `impala::common::postinstall`
 * **`impala::frontend`**: Impala Frontend (on client)
 * `impala::frontend::config`
 * `impala::frontend::install`
@@ -137,6 +142,10 @@ It can be used only when supported (for example with Cloudera distribution).
 
 Default: $::fqdn.
 
+####`debug_enable`
+
+Install also debug package and enable core dumps. Default: false.
+
 ####`features`
 
 Enable additional features. Default: {}.
@@ -145,11 +154,25 @@ Available features:
 
 * **manager**: script in /usr/local to start/stop all daemons relevant for given node
 
+####`keytab`
+
+Impala keytab file for catalog and statestore services. Default: '/etc/security/keytab/impala.service.keytab'.
+
+It must contain impala principal:
+
+* impala/&lt;HOSTNAME&gt;@&lt;REALM&gt;
+
 ####`properties`
 
 "Raw" properties for hadoop cluster. Default: as needed.
 
 "::undef" value will remove given property set automatically by this module, empty string sets the empty value.
+
+####`realm`
+
+Kerberos realm. Default: undef.
+
+Non-empty value enables Kerberos security.
 
 ####`servers`
 
@@ -157,7 +180,11 @@ Array of Impala server hostnames. Default: [$::fqdn].
 
 ####`statestore_hostname`
 
-Default: $::fqdn.
+Statestore service hostname. Default: $::fqdn.
+
+####`udf_enable`
+
+Installs also headers on the frontend for development of user defined queries. Default: true.
 
 <a name="limitations"></a>
 ## Limitations

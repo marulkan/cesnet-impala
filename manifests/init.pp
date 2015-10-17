@@ -9,7 +9,12 @@ class impala (
 
   $alternatives = '::default',
   $features = {},
+  $debug_enable = false,
   $properties = undef,
+  $udf_enable = true,
+
+  $realm = undef,
+  $keytab = '/etc/security/keytab/impala.service.keytab',
 ) inherits ::impala::params {
   include ::stdlib
 
