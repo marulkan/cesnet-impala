@@ -1,0 +1,22 @@
+<% props = scope.lookupvar('impala::_properties') -%>
+<%# sort the properties list for ruby <= 1.8 #-%>
+<% rv=RUBY_VERSION.split('.') -%>
+<% if rv[0] <= '1' and rv[1] <= '8' -%>
+<% props_keys = props.keys.sort -%>
+<% else -%>
+<% props_keys = props.keys -%>
+<% end -%>
+<% props_keys.each do |p| -%>
+<% value = props[p] -%>
+<% if p =~ /^hadoop\.hdfs\.|^dfs\.|^nfs\./ and value != '::undef' -%>
+<% if scope.lookupvar('impala::descriptions')[p] -%>
+  <!-- <%= scope.lookupvar('impala::descriptions')[p] %> -->
+<% end -%>
+  <property>
+    <name><%= p -%></name>
+    <value><%= value -%></value>
+  </property>
+<% end -%>
+<% end -%>
+
+</configuration>

@@ -1,0 +1,10 @@
+fixtures:
+  repositories:
+    concat: "https://github.com/puppetlabs/puppetlabs-concat.git"
+    stdlib:
+      repo: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
+      ref: '4.2.0'
+    alternatives: "git://github.com/puppet-community/puppet-alternatives"
+    hadoop_lib: "https://github.com/valtri/cesnet-hadoop_lib"
+  symlinks:
+    impala: "#{source_dir}"

@@ -1,0 +1,44 @@
+<%
+  catalog = scope.lookupvar('impala::daemons')['catalog']
+  statestore = scope.lookupvar('impala::daemons')['statestore']
+  server = scope.lookupvar('impala::daemons')['server']
+-%>
+#! /bin/sh
+
+#
+# Helper script for checking and changing status of all Impala daemons
+# relevant for this node.
+#
+
+if [ -z "$1" ]; then
+  echo "Usage: $0 start|stop|status|..."
+  echo "       $0 clean"
+  exit 1
+fi
+
+while [ -n "$1" ]; do
+
+  case "$1" in
+  clean)
+    rm -rfv /var/log/impala/* 2&gt;/dev/null || :
+    ;;
+  start|restart|*)
+<%if scope.lookupvar('impala::catalog_hostname') == @fqdn -%>    echo "<%= catalog -%> $1"; service <%= catalog -%> $1
+<%end-%>
+<%if scope.lookupvar('impala::statestore_hostname') == @fqdn -%>    echo "<%= statestore -%> $1"; service <%= statestore -%> $1
+<%end-%>
+<%if scope.lookupvar('impala::servers').include? @fqdn -%>    echo "<%= server -%> $1"; service <%= server -%> $1
+<%end-%>
+    ;;
+  stop)
+<%if scope.lookupvar('impala::servers').include? @fqdn -%>    echo "<%= server -%> $1"; service <%= server -%> $1
+<%end-%>
+<%if scope.lookupvar('impala::statestore_hostname') == @fqdn -%>    echo "<%= statestore -%> $1"; service <%= statestore -%> $1
+<%end-%>
+<%if scope.lookupvar('impala::catalog_hostname') == @fqdn -%>    echo "<%= catalog -%> $1"; service <%= catalog -%> $1
+<%end-%>
+    ;;
+  esac
+
+  shift
+done
