@@ -3,10 +3,7 @@
 # Daemon-specific configuration.
 #
 class impala::common::daemon {
-  $catalog_hostname = $impala::catalog_hostname
-  $statestore_hostname = $impala::statestore_hostname
   $debug_enable = $impala::debug_enable
-  $realm = $impala::realm
   file { $impala::env_file:
     group   => 'root',
     mode    => '0644',

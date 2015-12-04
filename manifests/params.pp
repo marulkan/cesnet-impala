@@ -19,6 +19,7 @@ class impala::params {
   }
 
   $confdir = '/etc/impala/conf'
+  $logdir = '/var/log/impala'
   $env_file = '/etc/default/impala'
   $hadoop_confdir = '/etc/hadoop/conf'
   $hbase_confdir = '/etc/hbase/conf'

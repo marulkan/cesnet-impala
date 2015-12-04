@@ -19,11 +19,11 @@ Puppet >= 3.x is required.
 
 Supported are:
 
-* **Debian 7/wheezy**: tested with CDH 5.4.7, Impala 2.2.0
+* **Debian 7/wheezy**: tested with CDH 5.4.7/5.5.0, Impala 2.2.0/2.3.0
 * **Ubuntu 14/trusty**
 * **RHEL 6 and clones**
 
-Security is not implemented yet.
+Security is not working ([IMPALA-2645](https://issues.cloudera.org/browse/IMPALA-2645)).
 
 <a name="setup"></a>
 ## Setup
@@ -162,9 +162,15 @@ It must contain impala principal:
 
 * impala/&lt;HOSTNAME&gt;@&lt;REALM&gt;
 
+####`parameters`
+
+Daemon parameters to set. Default: undef.
+
+Value is a hash with *all*, *catalog*, *server*, and *statestore* keys.
+
 ####`properties`
 
-"Raw" properties for hadoop cluster. Default: as needed.
+Additional Impala properties for hadoop cluster. Default: undef.
 
 "::undef" value will remove given property set automatically by this module, empty string sets the empty value.
 
@@ -193,7 +199,7 @@ Hadoop cluster and Hive metastore is required. See [Setup Requirements](#require
 
 This module setup Impala cluster and tries to not limit generic usage by doing other stuff. You can have your own repository with Hadoop SW, you can select which Kerberos implementation, or Java version to use. All of that you will probably already have for the Hadoop cluster.
 
-Security is not implemented yet.
+Security is not working yet.
 
 <a name="development"></a>
 ## Development
