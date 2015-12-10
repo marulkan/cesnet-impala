@@ -6,10 +6,9 @@ describe 'impala::frontend' do
       path = '/etc/impala/conf'
       context "on #{os}" do
         let(:facts) do
-          facts
-          {
+          facts.merge({
             :concat_basedir => '/dne',
-          }
+          })
         end
 
         context "without any parameters" do

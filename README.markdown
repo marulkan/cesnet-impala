@@ -5,6 +5,8 @@
     * [What impala affects](#affects)
     * [Setup requirements](#requirements)
 3. [Usage - Configuration options and additional functionality](#usage)
+    * [Begining with Impala](#begin)
+    * [Cluster with more HDFS Name nodes](#multinn)
 4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
     * [Module Parameters (impala class)](#class-impala)
 5. [Limitations - OS compatibility, etc.](#limitations)
@@ -71,6 +73,9 @@ Example when using 'users' group:
 <a name="usage"></a>
 ## Usage
 
+<a name="begin"></a>
+### Begining with Impala
+
 **Basic example:**
 
     class { 'impala':
@@ -102,6 +107,23 @@ Example when using 'users' group:
       include ::impala::server
     }
 
+<a name="multinn"></a>
+###Cluster with more HDFS Name nodes
+
+If there are used more HDFS namenodes in the Hadoop cluster (high availability, namespaces, ...), it is needed to have 'impala' system user on all of them to authorization work properly. You could install Impala daemons (using *impala::server*), but just creating the user is enough (using *impala::user*).
+
+Note, the *impala::hdfs* class is available too. It is not needed to use this class (it is here only for similarity with other addons), but it includes the *impala::user*, so *impala::hdfs* can be called instead.
+
+**Example**:
+
+    node <HDFS_NAMENODE> {
+      include ::impala::hdfs
+    }
+
+    node <HDFS_OTHER_NAMENODE> {
+      include ::impala::user
+    }
+
 <a name="reference"></a>
 ## Reference
 
@@ -117,6 +139,7 @@ Example when using 'users' group:
 * **`impala::frontend`**: Impala Frontend (on client)
 * `impala::frontend::config`
 * `impala::frontend::install`
+* **`impala::hdfs`**: HDFS initializations
 * `impala::params`
 * **`impala::server`**: Impala Server (mostly on each Hadoop Data Node)
 * `impala::server::config`
@@ -126,6 +149,7 @@ Example when using 'users' group:
 * `impala::statestore::config`
 * `impala::statestore::install`
 * `impala::statestore::service`
+* **`impala::user`**: Create impala system user, if needed
 
 <a name="class-impala"></a>
 ### `impala` class

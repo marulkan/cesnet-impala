@@ -3,6 +3,8 @@
 # Common configuration for Impala.
 #
 class impala::common::config {
+  include ::impala::user
+
   $path = '/sbin:/usr/sbin:/bin:/usr/bin'
 
   exec { "mkdir -p ${impala::confdir}":
@@ -20,6 +22,8 @@ class impala::common::config {
     mode  => '0644',
     owner => 'root',
   }
+  User['impala']
+  ->
   file { "${impala::homedir}/.puppet-orig-core-site.xml":
     source => "${impala::hadoop_confdir}/core-site.xml",
   }
@@ -45,6 +49,8 @@ class impala::common::config {
     mode  => '0644',
     owner => 'root',
   }
+  User['impala']
+  ->
   file { "${impala::homedir}/.puppet-orig-hdfs-site.xml":
     source => "${impala::hadoop_confdir}/hdfs-site.xml",
   }
