@@ -9,7 +9,7 @@
     * [What impala affects](#affects)
     * [Setup requirements](#requirements)
 3. [Usage - Configuration options and additional functionality](#usage)
-    * [Begining with Impala](#begin)
+    * [Beginning with Impala](#begin)
     * [Cluster with more HDFS Name nodes](#multinn)
 4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
     * [Module Parameters (impala class)](#class-impala)
@@ -40,10 +40,17 @@ Security is not working ([IMPALA-2645](https://issues.cloudera.org/browse/IMPALA
 * Packages: installs Impala packages as needed
 * Files modified:
  * */etc/impala/conf/\**
+ * */etc/default/impala*
  * */usr/local/sbin/impmanager* (when requested in *features*)
 * Alternatives:
  * alternatives are used for /etc/impala/conf
  * this module switches to the new alternative by default, so the original configuration can be kept intact
+* Helper files:
+ * */var/lib/impala/.puppet-\**
+* Users:
+ * *impala* system user and group are created (from packages or by puppet)
+* Secret Files:
+ * permissions of keytab are modified (default location: */etc/security/keytabs/impala.service.keytab*)
 * Services: setup and start Impala services as needed (catalog, server, statestore)
 
 <a name="requirements"></a>
@@ -60,7 +67,7 @@ Hadoop cluster is required. This puppet module should be applied after the Hadoo
 
 Native Hadoop library should be installed.
 
-It is not recommended to install impala on HDFS Name Node: installing on NameNodes provides no additional data locality, and executing queries with such a configuration might cause memory contention and negatively impact the HDFS NameNode.
+It is not recommended to install impala nodes on HDFS Name Node: installing on Name Nodes provides no additional data locality, and executing queries with such a configuration might cause memory contention and negatively impact the HDFS Name Node.
 
 #### Hive
 
@@ -78,7 +85,7 @@ Example when using 'users' group:
 ## Usage
 
 <a name="begin"></a>
-### Begining with Impala
+### Beginning with Impala
 
 **Basic example:**
 
@@ -114,7 +121,7 @@ Example when using 'users' group:
 <a name="multinn"></a>
 ###Cluster with more HDFS Name nodes
 
-If there are used more HDFS namenodes in the Hadoop cluster (high availability, namespaces, ...), it is needed to have 'impala' system user on all of them to authorization work properly. You could install Impala daemons (using *impala::server*), but just creating the user is enough (using *impala::user*).
+If there are used more HDFS Name Nodes in the Hadoop cluster (high availability, namespaces, ...), it is needed to have 'impala' system user on all of them to authorization work properly. You could install Impala daemons (using *impala::server*), but just creating the user is enough (using *impala::user*).
 
 Note, the *impala::hdfs* class is available too. It is not needed to use this class (it is here only for similarity with other addons), but it includes the *impala::user*, so *impala::hdfs* can be called instead.
 
@@ -143,7 +150,7 @@ Note, the *impala::hdfs* class is available too. It is not needed to use this cl
 * **`impala::frontend`**: Impala Frontend (on client)
 * `impala::frontend::config`
 * `impala::frontend::install`
-* **`impala::hdfs`**: HDFS initializations
+* **`impala::hdfs`**: HDFS initialization
 * `impala::params`
 * **`impala::server`**: Impala Server (mostly on each Hadoop Data Node)
 * `impala::server::config`
