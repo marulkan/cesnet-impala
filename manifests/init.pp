@@ -9,6 +9,7 @@ class impala (
   $sentry_hostname = undef,
 
   $alternatives = '::default',
+  $group = undef,
   $features = {},
   $debug_enable = false,
   $udf_enable = true,
@@ -86,6 +87,7 @@ class impala (
     }
   }
   if $sentry_hostname {
+    $_group = pick($group, 'hive')
     $sentry_parameters = {
       'catalog' => {
         sentry_config => '/etc/sentry/conf/sentry-site.xml',
@@ -101,6 +103,7 @@ class impala (
       },
     }
   } else {
+    $_group = pick($group, 'users')
     $sentry_parameters = {
       'catalog' => {},
       'statestore' => {},

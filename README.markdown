@@ -73,11 +73,15 @@ It is not recommended to install impala nodes on HDFS Name Node: installing on N
 
 **Hive metastore** service is required. You can use *cesnet-hive* puppet module for it (*hive* and *hive::metastore* classes), recommended with MySQL or PostgreSQL database backends (*puppetlabs-postgresql* or *puppetlabs-mysql* puppet modules for example).
 
-**Hive group** (group ownership of HDFS directory */user/hive/warehouse*) must be assigned to the *impala* user. Note, Cloudera is using 'hive' group and impala is assigned to that group automatically:
+**Hive group** (group ownership of HDFS directory */user/hive/warehouse*) must be assigned to the *impala* user.
+
+This is handled automatically. Just make sure the *group* parameter has the proper value (the same as used in hive), defaults are OK.
+
+ 1. In deployment with Sentry: we're is using 'hive' group by default and impala is assigned to that group:
 
     usermod -G hive -a impala
 
-Example when using 'users' group:
+ 2. In deployment without Sentry: we're using 'users' group by default and impala is assigned to that group:
 
     usermod -G users -a impala
 
@@ -181,6 +185,12 @@ Default: $::fqdn.
 
 Install also debug package and enable core dumps. Default: false.
 
+####`group`
+
+Hive group on HDFS. Default: 'users' (without sentry), 'hive' (with sentry).
+
+*impala* user is added to this group.
+
 ####`features`
 
 Enable additional features. Default: {}.
@@ -234,7 +244,7 @@ Hadoop cluster and Hive metastore is required. See [Setup Requirements](#require
 
 This module setup Impala cluster and tries to not limit generic usage by doing other stuff. You can have your own repository with Hadoop SW, you can select which Kerberos implementation, or Java version to use. All of that you will probably already have for the Hadoop cluster.
 
-Security is not working yet.
+Security is not working yet and usage with sentry has not been tested.
 
 <a name="development"></a>
 ## Development
