@@ -25,6 +25,4 @@ class impala::params {
   $hbase_confdir = '/etc/hbase/conf'
   $hive_confdir = '/etc/hive/conf'
   $homedir = '/var/lib/impala'
-
-  $descriptions = {}
 }

@@ -63,7 +63,11 @@ Hadoop cluster is required. This puppet module should be applied after the Hadoo
     Class['::hadoop::common::hdfs::config'] -> Class['::impala::common::config']
     Class['::hbase::common::config'] -> Class['::impala::common::config']
 
-*dfs.datanode.hdfs-blocks-metadata.enabled* must be *true* in the Hadoop cluster
+Some settings of Hadoop cluster are required:
+
+* *dfs.datanode.hdfs-blocks-metadata.enabled*=*true*
+* *dfs.client.read.shortcircuit*=*true*
+* *dfs.domain.socket.path* set to location writable by datanodes
 
 Native Hadoop library should be installed.
 
@@ -212,12 +216,6 @@ It must contain impala principal:
 Daemon parameters to set. Default: undef.
 
 Value is a hash with *all*, *catalog*, *server*, and *statestore* keys.
-
-####`properties`
-
-Additional Impala properties for hadoop cluster. Default: undef.
-
-"::undef" value will remove given property set automatically by this module, empty string sets the empty value.
 
 ####`realm`
 

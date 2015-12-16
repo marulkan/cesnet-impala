@@ -5,9 +5,7 @@ describe 'impala::user' do
     on_supported_os.each do |os, facts|
       context "on #{os}" do
         let(:facts) do
-          facts.merge({
-            :concat_basedir => '/dne',
-          })
+          facts
         end
 
         context "impala::user class without any parameters" do

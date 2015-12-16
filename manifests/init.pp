@@ -15,21 +15,12 @@ class impala (
   $udf_enable = true,
 
   $parameters = undef,
-  $properties = undef,
   $realm = undef,
   $keytab = '/etc/security/keytab/impala.service.keytab',
 ) inherits ::impala::params {
   include ::stdlib
 
   validate_string($alternatives)
-
-  $dyn_properties = {
-    # short-circuit reads
-    'dfs.client.read.shortcircuit' => true,
-    'dfs.domain.socket.path' => '/var/run/hadoop-hdfs/dn.socket',
-    'dfs.client.file-block-storage-locations.timeout.millis' => '10000',
-  }
-  $_properties = merge($dyn_properties, $properties)
 
   if $impala::parameters and has_key($impala::parameters, 'catalog') {
     $catalog_parameters = $impala::parameters['catalog']

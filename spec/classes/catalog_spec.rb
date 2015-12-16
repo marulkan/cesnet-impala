@@ -6,9 +6,7 @@ describe 'impala::catalog' do
       path = '/etc/impala/conf'
       context "on #{os}" do
         let(:facts) do
-          facts.merge({
-            :concat_basedir => '/dne',
-          })
+          facts
         end
 
         context "without any parameters" do
