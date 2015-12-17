@@ -38,23 +38,28 @@ class impala (
     $statestore_parameters = undef
   }
 
+  # impala detects hostname without domain ==> also *hostname* parameter
   $impala_parameters = {
     'catalog' => {
+      hostname => $::fqdn,
       log_dir => '${IMPALA_LOG_DIR}',
       state_store_host => '${IMPALA_STATE_STORE_HOST}',
       state_store_port => '${IMPALA_STATE_STORE_PORT}',
     },
     'statestore' => {
+      hostname => $::fqdn,
       log_dir => '${IMPALA_LOG_DIR}',
       state_store_port => '${IMPALA_STATE_STORE_PORT}',
     },
     'server' => {
+      hostname => $::fqdn,
       log_dir => '${IMPALA_LOG_DIR}',
       catalog_service_host => '${IMPALA_CATALOG_SERVICE_HOST}',
       state_store_host => '${IMPALA_STATE_STORE_HOST}',
       state_store_port => '${IMPALA_STATE_STORE_PORT}',
       use_statestore => '',
       be_port => '${IMPALA_BACKEND_PORT}',
+      server_name => $::fqdn,
     },
   }
   if $realm and $realm != '' {
@@ -67,7 +72,10 @@ class impala (
         keytab_file => $keytab,
         principal => "impala/${statestore_hostname}@${realm}",
       },
+      # impala detects hostname without domain ==> $:fqdn instead of _HOST
       'server' => {
+        keytab_file => $keytab,
+        principal => "impala/${::fqdn}@${realm}",
       },
     }
   } else {
