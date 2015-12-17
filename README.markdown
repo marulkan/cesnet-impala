@@ -215,7 +215,7 @@ It must contain impala principal:
 
 Daemon parameters to set. Default: undef.
 
-Value is a hash with *all*, *catalog*, *server*, and *statestore* keys.
+Value is a hash with *catalog*, *server*, and *statestore* keys.
 
 ####`realm`
 
