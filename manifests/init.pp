@@ -59,7 +59,6 @@ class impala (
       state_store_port => '${IMPALA_STATE_STORE_PORT}',
       use_statestore => '',
       be_port => '${IMPALA_BACKEND_PORT}',
-      server_name => $::fqdn,
     },
   }
   if $realm and $realm != '' {
