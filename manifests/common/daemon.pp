@@ -18,4 +18,19 @@ class impala::common::daemon {
       owner => 'impala',
     }
   }
+
+  if $impala::https {
+    file { "${impala::homedir}/hostcert.pem":
+      owner  => 'impala',
+      group  => 'impala',
+      mode   => '0644',
+      source => $impala::https_certificate,
+    }
+    file { "${impala::homedir}/hostkey.pem":
+      owner  => 'impala',
+      group  => 'impala',
+      mode   => '0640',
+      source => $impala::https_private_key,
+    }
+  }
 }

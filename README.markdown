@@ -11,6 +11,7 @@
 3. [Usage - Configuration options and additional functionality](#usage)
     * [Beginning with Impala](#begin)
     * [Cluster with more HDFS Name nodes](#multinn)
+    * [SSL support](#ssl)
 4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
     * [Module Parameters (impala class)](#class-impala)
 5. [Limitations - OS compatibility, etc.](#limitations)
@@ -51,6 +52,7 @@ Security is not working ([IMPALA-2645](https://issues.cloudera.org/browse/IMPALA
  * *impala* system user and group are created (from packages or by puppet)
 * Secret Files:
  * permissions of keytab are modified (default location: */etc/security/keytabs/impala.service.keytab*)
+ * certificate files are copied to ''/var/lib/impala/\*.pem''
 * Services: setup and start Impala services as needed (catalog, server, statestore)
 
 <a name="requirements"></a>
@@ -143,6 +145,28 @@ Note, the *impala::hdfs* class is available too. It is not needed to use this cl
       include ::impala::user
     }
 
+<a name="ssl"></a>
+###SSL support
+
+Certificate files must be prepared before launching *impala* puppet module:
+
+* */etc/grid-security/ca-chain.pem*
+* */etc/grid-security/hostcery.pem*
+* */etc/grid-security/hostkey.pem*
+
+Possible parameters:
+
+* *https*: **true**, **false** (or undef)
+* *https_cachain*
+* *https_certificate*
+* *https_private_key*
+
+Client side:
+
+*--ssl* option must be used in *impala-shell* after enabling SSL.
+
+*--ca_cert* can be used for verifying of impala certificates, but we don't recommend it as there are some limitations (altSubjName is not supported).
+
 <a name="reference"></a>
 ## Reference
 
@@ -202,6 +226,26 @@ Enable additional features. Default: {}.
 Available features:
 
 * **manager**: script in /usr/local to start/stop all daemons relevant for given node
+
+####`https`
+
+Enable SSL. Default: undef.
+
+####`https_cachain`
+
+SSL CA chain file. Default: '/etc/grid-security/ca-chain.pem'.
+
+It is optional, you can disable it by using **::undef**. Without the CA chain servers won't check the certificates between Impala daemons.
+
+####`https_certificate`
+
+SSL certificate file. Default: '/etc/grid-security/hostcert.pem'.
+
+####`https_private_key`
+
+SSL certificate key. Default: '/etc/grid-security/hostkey.pem'.
+
+The certificate key must be without passphrase.
 
 ####`keytab`
 

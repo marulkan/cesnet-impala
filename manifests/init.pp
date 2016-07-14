@@ -12,6 +12,10 @@ class impala (
   $group = undef,
   $features = {},
   $debug_enable = false,
+  $https = undef,
+  $https_cachain = '/etc/grid-security/ca-chain.pem',
+  $https_certificate = '/etc/grid-security/hostcert.pem',
+  $https_private_key = '/etc/grid-security/hostkey.pem',
   $udf_enable = true,
 
   $parameters = undef,
@@ -108,10 +112,41 @@ class impala (
       'server' => {},
     }
   }
+  if ($https) {
+    if !$impala::https_certificate or $impala::https_certificate == '' {
+      err('"https_certificate" is needed for https support.')
+    }
+    if !$impala::https_private_key or $impala::https_private_key == '' {
+      err('"https_certificate" is needed for https support.')
+    }
+    $https_parameters = {
+      'catalog' => {
+        'ssl_server_certificate' => "${impala::homedir}/hostcert.pem",
+        'ssl_private_key' => "${impala::homedir}/hostkey.pem",
+        'ssl_client_ca_certificate' => $impala::https_cachain,
+      },
+      'statestore' => {
+        'ssl_server_certificate' => "${impala::homedir}/hostcert.pem",
+        'ssl_private_key' => "${impala::homedir}/hostkey.pem",
+        'ssl_client_ca_certificate' => $impala::https_cachain,
+      },
+      'server' => {
+        'ssl_server_certificate' => "${impala::homedir}/hostcert.pem",
+        'ssl_private_key' => "${impala::homedir}/hostkey.pem",
+        'ssl_client_ca_certificate' => $impala::https_cachain,
+      },
+    }
+  } else {
+    $https_parameters = {
+      'catalog' => {},
+      'statestore' => {},
+      'server' => {},
+    }
+  }
 
   $_parameters = {
-    'catalog' => merge($impala_parameters['catalog'], $sec_parameters['catalog'], $sentry_parameters['catalog'], $catalog_parameters),
-    'statestore' => merge($impala_parameters['statestore'], $sec_parameters['statestore'], $sentry_parameters['statestore'], $statestore_parameters),
-    'server' => merge($impala_parameters['server'], $sec_parameters['server'], $sentry_parameters['server'], $server_parameters),
+    'catalog' => merge($impala_parameters['catalog'], $sec_parameters['catalog'], $sentry_parameters['catalog'], $https_parameters['catalog'], $catalog_parameters),
+    'statestore' => merge($impala_parameters['statestore'], $sec_parameters['statestore'], $sentry_parameters['statestore'], $https_parameters['statestore'], $statestore_parameters),
+    'server' => merge($impala_parameters['server'], $sec_parameters['server'], $sentry_parameters['server'], $https_parameters['server'], $server_parameters),
   }
 }
