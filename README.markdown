@@ -11,6 +11,7 @@
 3. [Usage - Configuration options and additional functionality](#usage)
     * [Beginning with Impala](#begin)
     * [Cluster with more HDFS Name nodes](#multinn)
+    * [Enable security](#security)
     * [SSL support](#ssl)
 4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
     * [Module Parameters (impala class)](#class-impala)
@@ -26,11 +27,9 @@ Puppet >= 3.x is required.
 
 Supported are:
 
-* **Debian 7/wheezy**: tested with CDH 5.4.7/5.5.0, Impala 2.2.0/2.3.0
+* **Debian 7/wheezy**: tested with CDH 5.4.7/5.5.0/7.5.1, Impala 2.2.0/2.3.0/2.5.0
 * **Ubuntu 14/trusty**
 * **RHEL 6 and clones**
-
-Security is not working ([IMPALA-2645](https://issues.cloudera.org/browse/IMPALA-2645)).
 
 <a name="setup"></a>
 ## Setup
@@ -145,6 +144,20 @@ Note, the *impala::hdfs* class is available too. It is not needed to use this cl
       include ::impala::user
     }
 
+<a name="Security"></a>
+###Enable security
+
+SASL GSSAPI module must be installed (installation is not part of this module yet).
+
+Parameters:
+
+* *realm*: Kerberos realm, non-empty value enables the security
+* *keytab*
+
+Client side:
+
+*-k, --kerberos* option must be used in *impala-shell* after enabling security.
+
 <a name="ssl"></a>
 ###SSL support
 
@@ -251,9 +264,10 @@ The certificate key must be without passphrase.
 
 Impala keytab file for catalog and statestore services. Default: '/etc/security/keytab/impala.service.keytab'.
 
-It must contain impala principal:
+It must contain principals:
 
 * impala/&lt;HOSTNAME&gt;@&lt;REALM&gt;
+* HTTP/&lt;HOSTNAME&gt;@&lt;REALM&gt;
 
 ####`parameters`
 
@@ -286,7 +300,9 @@ Hadoop cluster and Hive metastore is required. See [Setup Requirements](#require
 
 This module setup Impala cluster and tries to not limit generic usage by doing other stuff. You can have your own repository with Hadoop SW, you can select which Kerberos implementation, or Java version to use. All of that you will probably already have for the Hadoop cluster.
 
-Security is not working yet and usage with sentry has not been tested.
+You must install also SASL GSSAPI module package when using security.
+
+Usage with sentry has not been tested.
 
 <a name="development"></a>
 ## Development
