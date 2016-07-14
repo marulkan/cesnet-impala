@@ -1,13 +1,19 @@
-source "https://rubygems.org"
+source ENV['GEM_SOURCE'] || "https://rubygems.org"
 
 group :test do
-  gem "rake"
+  gem "rake", '< 11'
   gem "puppet", ENV['PUPPET_GEM_VERSION'] || '~> 3.8.0'
   gem "rspec", '< 3.2.0'
   gem "rspec-puppet", :git => 'https://github.com/rodjek/rspec-puppet.git'
   gem "puppetlabs_spec_helper"
   gem "metadata-json-lint"
   gem "rspec-puppet-facts"
+  gem 'simplecov', '>= 0.11.0'
+  gem 'simplecov-console'
+  # >= 2.0.1 hard requires ruby >= 2.0
+  gem 'json', '< 2.0.0'
+  # >= 3.1 hard requires newest ruby
+  gem 'listen', '< 3.1'
 
   gem "puppet-lint-absolute_classname-check"
   gem "puppet-lint-leading_zero-check"
