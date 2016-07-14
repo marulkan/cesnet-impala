@@ -3,7 +3,6 @@
 # Impala Frontend (on client).
 #
 class impala::frontend(
-  
 ) {
   include ::impala::frontend::install
   include ::impala::frontend::config
