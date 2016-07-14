@@ -1,6 +1,6 @@
 ##Impala
 
-[![Build Status](https://travis-ci.org/MetaCenterCloudPuppet/cesnet-impala.svg?branch=master)](https://travis-ci.org/MetaCenterCloudPuppet/cesnet-impala)
+[![Build Status](https://travis-ci.org/MetaCenterCloudPuppet/cesnet-impala.svg?branch=master)](https://travis-ci.org/MetaCenterCloudPuppet/cesnet-impala) [![Puppet Forge](https://img.shields.io/puppetforge/v/cesnet/impala.svg)](https://forge.puppetlabs.com/cesnet/impala)
 
 #### Table of Contents
 
@@ -51,7 +51,7 @@ Supported are:
  * *impala* system user and group are created (from packages or by puppet)
 * Secret Files:
  * permissions of keytab are modified (default location: */etc/security/keytabs/impala.service.keytab*)
- * certificate files are copied to ''/var/lib/impala/\*.pem''
+ * certificate files are copied to */var/lib/impala/\*.pem*
 * Services: setup and start Impala services as needed (catalog, server, statestore)
 
 <a name="requirements"></a>
