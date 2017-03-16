@@ -1,0 +1,12 @@
+<%
+  has_security = (@realm and not @realm.empty?)
+  has_ssl = @https
+-%>
+#! /bin/sh -e
+SERVER=`cat /usr/local/share/hadoop/impala-servers | grep -v '^#' | shuf | head -n 1`
+
+set -o xtrace
+impala-shell -i $SERVER:21000<% -%>
+<% if has_security -%> -k<% end -%>
+<% if has_ssl -%> --ssl --ca_cert=<%= @https_cachain %><% end -%>
+ "$@"

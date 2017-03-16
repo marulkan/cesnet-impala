@@ -10,7 +10,9 @@ class impala (
 
   $alternatives = '::default',
   $group = undef,
-  $features = {},
+  $features = {
+    launcher => true,
+  },
   $debug_enable = false,
   $https = undef,
   $https_cachain = '/etc/grid-security/ca-chain.pem',

@@ -42,6 +42,7 @@ Supported are:
  * */etc/impala/conf/\**
  * */etc/default/impala*
  * */usr/local/sbin/impmanager* (when requested in *features*)
+ * */usr/local/bin/impala* (when not disabled in *features*)
 * Alternatives:
  * alternatives are used for /etc/impala/conf
  * this module switches to the new alternative by default, so the original configuration can be kept intact
@@ -234,10 +235,11 @@ Hive group on HDFS. Default: 'users' (without sentry), 'hive' (with sentry).
 
 ####`features`
 
-Enable additional features. Default: {}.
+Enable additional features. Default: { launcher => true }.
 
 Available features:
 
+* **launcher**: script in /usr/local to launch impala client
 * **manager**: script in /usr/local to start/stop all daemons relevant for given node
 
 ####`https`

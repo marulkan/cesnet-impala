@@ -20,6 +20,8 @@ describe 'impala::frontend' do
 
           it { should contain_file(path + '/core-site.xml') }
           it { should contain_file(path + '/hdfs-site.xml') }
+          it { should contain_file('/usr/local/bin/impala') }
+          it { should contain_file('/usr/local/share/hadoop/impala-servers') }
 
           it { is_expected.to contain_package('impala-shell') }
         end
