@@ -27,9 +27,12 @@ Puppet >= 3.x is required.
 
 Supported are:
 
-* **Debian 7/wheezy**: tested with CDH 5.4.7/5.5.0/7.5.1, Impala 2.2.0/2.3.0/2.5.0
+* **Debian 7/wheezy**
+* **Debian 8/jessie**
 * **Ubuntu 14/trusty**
-* **RHEL 6 and clones**
+* **RHEL and clones**
+
+Tested with CDH 5.4.7/5.5.0/5.10.0, Impala 2.2.0/2.3.0/2.5.0/2.7.0.
 
 <a name="setup"></a>
 ## Setup
