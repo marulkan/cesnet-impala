@@ -76,7 +76,7 @@ Some settings of Hadoop cluster are required:
 
 Native Hadoop library should be installed.
 
-It is not recommended to install impala nodes on HDFS Name Node: installing on Name Nodes provides no additional data locality, and executing queries with such a configuration might cause memory contention and negatively impact the HDFS Name Node.
+It is not recommended to install Impala nodes on HDFS Name Node: installing on Name Nodes provides no additional data locality, and executing queries with such a configuration might cause memory contention and negatively impact the HDFS Name Node.
 
 #### Hive
 
@@ -84,15 +84,17 @@ It is not recommended to install impala nodes on HDFS Name Node: installing on N
 
 **Hive group** (group ownership of HDFS directory */user/hive/warehouse*) must be assigned to the *impala* user.
 
-This is handled automatically. Just make sure the *group* parameter has the proper value (the same as used in hive), defaults are OK.
+This is handled automatically. Just make sure the *group* parameter has the proper value (the same as used in hive).
 
- 1. In deployment with Sentry: we're is using 'hive' group by default and impala is assigned to that group:
+ 1. In deployment with Sentry: we're is using *hive* group by default and *impala* is assigned to that group:
 
     usermod -G hive -a impala
 
- 2. In deployment without Sentry: we're using 'users' group by default and impala is assigned to that group:
+ 2. In deployment without Sentry: no group assignment is done by default. When using *group* parameter, *impala* is assigned to that group (for example when using *users* group):
 
     usermod -G users -a impala
+
+ In deployment without Sentry, all authenticated users are handled without authorization and have all *impala* user privileges in Hive metastore and HDFS. Use the *group* parameter in case the missing (permissive) authorization is not an issue. Enabling write access is not needed though - databases can be still created using Hive and they will have proper ownership in that case.
 
 <a name="usage"></a>
 ## Usage
@@ -134,7 +136,7 @@ This is handled automatically. Just make sure the *group* parameter has the prop
 <a name="multinn"></a>
 ###Cluster with more HDFS Name nodes
 
-If there are used more HDFS Name Nodes in the Hadoop cluster (high availability, namespaces, ...), it is needed to have 'impala' system user on all of them to authorization work properly. You could install Impala daemons (using *impala::server*), but just creating the user is enough (using *impala::user*).
+If there are used more HDFS Name Nodes in the Hadoop cluster (high availability, namespaces, ...), it is needed to have *impala* system user on all of them to authorization work properly. You could install Impala daemons (using *impala::server*), but just creating the user is enough (using *impala::user*).
 
 Note, the *impala::hdfs* class is available too. It is not needed to use this class (it is here only for similarity with other addons), but it includes the *impala::user*, so *impala::hdfs* can be called instead.
 
@@ -182,7 +184,7 @@ Client side:
 
 *--ssl* option must be used in *impala-shell* after enabling SSL.
 
-*--ca_cert* can be used for verifying of impala certificates, but we don't recommend it as there are some limitations (altSubjName is not supported).
+*--ca_cert* can be used for verifying of Impala certificates.
 
 <a name="reference"></a>
 ## Reference
@@ -232,9 +234,11 @@ Install also debug package and enable core dumps. Default: false.
 
 ####`group`
 
-Hive group on HDFS. Default: 'users' (without sentry), 'hive' (with sentry).
+Hive group on HDFS. Default: undef (without sentry), 'hive' (with sentry).
 
 *impala* user is added to this group.
+
+See also [Setup requirements/Hive](#requirements).
 
 ####`features`
 

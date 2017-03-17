@@ -91,7 +91,7 @@ class impala (
     }
   }
   if $sentry_hostname {
-    $_group = pick($group, 'hive')
+    $impala_groups = [pick($group, 'hive')]
     $sentry_parameters = {
       'catalog' => {
         sentry_config => '/etc/sentry/conf/sentry-site.xml',
@@ -107,7 +107,11 @@ class impala (
       },
     }
   } else {
-    $_group = pick($group, 'users')
+    if $group {
+      $impala_groups = [$group]
+    } else {
+      $impala_groups = []
+    }
     $sentry_parameters = {
       'catalog' => {},
       'statestore' => {},
