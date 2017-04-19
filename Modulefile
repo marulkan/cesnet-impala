@@ -1,5 +1,5 @@
 name 'cesnet-impala'
-version '1.3.0'
+version '1.3.1'
 source 'https://github.com/MetaCenterCloudPuppet/cesnet-impala'
 author 'Frantisek Dvorak <valtri@civ.zcu.cz>'
 license 'MIT'
