@@ -23,10 +23,16 @@ class impala (
   $parameters = undef,
   $realm = undef,
   $keytab = '/etc/security/keytab/impala.service.keytab',
+  $supplied_packages = {},
 ) inherits ::impala::params {
   include ::stdlib
 
   validate_string($alternatives)
+  if $supplied_packages and $supplied_packages != {} {
+    $packages = $supplied_packages
+  } else {
+    $packages = $default_packages
+  }
 
   if $impala::parameters and has_key($impala::parameters, 'catalog') {
     $catalog_parameters = $impala::parameters['catalog']

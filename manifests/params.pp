@@ -4,7 +4,7 @@
 # It sets variables according to platform.
 #
 class impala::params {
-  $packages = {
+  $default_packages = {
     catalog    => 'impala-catalog',
     debug      => 'impala-dbg',
     frontend   => 'impala-shell',
