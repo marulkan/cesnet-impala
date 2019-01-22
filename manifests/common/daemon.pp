@@ -12,10 +12,19 @@ class impala::common::daemon {
   }
 
   if $impala::realm and $impala::realm != '' {
-    file { $impala::keytab:
-      group => 'impala',
-      mode  => '0400',
-      owner => 'impala',
+    if $impala::keytab_source and $impala::keytab_source != '' {
+      file { $impala::keytab:
+        group  => 'impala',
+        mode   => '0400',
+        owner  => 'impala',
+        source => $impala::keytab_source,
+      }
+    } else {
+      file { $impala::keytab:
+        group => 'impala',
+        mode  => '0400',
+        owner => 'impala',
+      }
     }
   }
 

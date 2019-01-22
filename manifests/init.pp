@@ -23,6 +23,7 @@ class impala (
   $parameters = undef,
   $realm = undef,
   $keytab = '/etc/security/keytab/impala.service.keytab',
+  $keytab_source = undef,
   $supplied_packages = {},
 ) inherits ::impala::params {
   include ::stdlib
